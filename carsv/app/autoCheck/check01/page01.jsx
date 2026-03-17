@@ -48,7 +48,7 @@ export default function BookingStep2() {
           {/* Left Column: Summary (5 Cols) */}
           <div className="lg:col-span-5 space-y-6">
             
-            {/* Car Preview Card */}
+            {/* Car Preview Cards */}
             <div className="bg-[#0A1A17] rounded-[32px] overflow-hidden border border-white/5 shadow-xl">
               <div className="h-48 bg-[#E2E4E9] flex items-center justify-center">
                 <p className="text-gray-400 font-bold text-sm uppercase">รูปตัวอย่างรถ</p>
