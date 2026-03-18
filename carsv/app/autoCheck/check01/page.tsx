@@ -44,7 +44,7 @@ export default function BookingStep2() {
         const result = await response.json();
         console.log(result.json);
         alert("Success");
-        // window.location.assign("../../autoCheck/check02")
+        window.location.assign("../../autoCheck/check02")
       }
       
     } catch (error) {

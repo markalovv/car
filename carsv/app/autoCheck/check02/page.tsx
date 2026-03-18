@@ -88,10 +88,10 @@ export default function BookingStep3() {
                 </div>
 
                 <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <button onClick={() => setIsPopupOpen(true)} className="w-full rounded-2xl border border-white/20 bg-white/10 py-4 font-bold text-sm hover:bg-white/15 transition">
-                  View Inspection Report
-                </button>
-                  
+                  <button onClick={() => setIsPopupOpen(true)} className="w-full rounded-2xl border border-white/20 bg-white/10 py-4 font-bold text-sm hover:bg-white/15 transition">
+                    View Inspection Report
+                  </button>
+
                   <button className="w-full rounded-2xl border border-white/20 bg-white/10 py-4 font-bold text-sm hover:bg-white/15 transition">
                     Cancel Booking
                   </button>
