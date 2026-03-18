@@ -42,7 +42,7 @@ export default function BookingStep2() {
       if (response.ok) {
         const result = await response.json();
         console.log(result.json);
-        alert("Success");
+        alert("Success!");
       }
     } catch (error) {
       console.error(error);
