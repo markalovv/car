@@ -1,5 +1,6 @@
 "use client"
 
+import { link } from 'fs';
 import React, { useState } from 'react';
 
 interface BookingFormData {
@@ -43,7 +44,9 @@ export default function BookingStep2() {
         const result = await response.json();
         console.log(result.json);
         alert("Success");
+        // window.location.assign("../../autoCheck/check02")
       }
+      
     } catch (error) {
       console.error(error);
     } finally {
@@ -122,7 +125,7 @@ export default function BookingStep2() {
           <div className="lg:col-span-7 bg-[#0A1A17] rounded-[40px] p-10 border border-white/5 shadow-2xl">
             <h2 className="text-sm font-bold text-[#408A71] uppercase tracking-widest border-b border-[#285A48] pb-4 mb-8">ข้อมูลผู้จอง</h2>
             
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} action={"../../autoCheck/check02"} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="md:col-span-2">
                   <label className="text-xs font-bold text-gray-500 mb-2 block uppercase">ชื่อ - นามสกุล</label>
