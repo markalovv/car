@@ -53,13 +53,9 @@ export default function BookingStep2() {
 
   return (
     <main className="min-h-screen bg-[#020D0B] text-white font-sans">
-<<<<<<< HEAD
-      
-      {/* Navigation Header */}
-      {/* <nav className="flex justify-between items-center px-12 py-6 border-b border-white/5">
-=======
+
       <nav className="flex justify-between items-center px-12 py-6 border-b border-white/5">
->>>>>>> 39e02d2e3f1dc14b8ee1bdf867edda08932c4205
+
         <div className="text-[#B0E4CC] font-bold text-xl tracking-wider uppercase">
           K.C.S.P. <span className="text-white">Autoshop</span>
         </div>
@@ -68,7 +64,7 @@ export default function BookingStep2() {
           <a href="#" className="hover:text-white transition-colors uppercase border-b-2 border-[#408A71] text-white">Car</a>
           <a href="#" className="bg-[#1A302A] text-[#B0E4CC] px-6 py-2 rounded-full border border-[#285A48]">Service</a>
         </div>
-      </nav> */}
+      </nav>
 
       <div className="max-w-6xl mx-auto pt-12 pb-20 px-6">
         <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
