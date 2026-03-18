@@ -1,5 +1,4 @@
 
-
 export default function Nav() {
     return (
         <>
@@ -23,7 +22,7 @@ export default function Nav() {
                             <a href="#" className="text-[#408A71] hover:text-[#B0E4CC] transition-colors">Car</a>
                         </li>
                         <li>
-                            <a href="#" className="bg-[#285A48] text-white px-4 py-2 rounded-full hover:bg-[#408A71] transition-all">
+                            <a href="../../autoCheck/check01" className="bg-[#285A48] text-white px-4 py-2 rounded-full hover:bg-[#408A71] transition-all">
                                 Service
                             </a>
                         </li>
