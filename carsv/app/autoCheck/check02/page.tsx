@@ -7,6 +7,18 @@ export default function BookingStep3() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   return (
     <main className="min-h-screen bg-[#020D0B] text-white font-sans">
+      <nav className="flex justify-between items-center px-12 py-6 border-b border-white/5">
+
+        <div className="text-[#B0E4CC] font-bold text-xl tracking-wider uppercase">
+          K.C.S.P. <span className="text-white">Autoshop</span>
+        </div>
+        <div className="flex items-center gap-8 text-sm font-medium text-gray-400">
+          <a href="#" className="hover:text-white transition-colors uppercase">Home</a>
+          <a href="#" className="hover:text-white transition-colors uppercase border-b-2 border-[#408A71] text-white">Car</a>
+          <a href="#" className="bg-[#1A302A] text-[#B0E4CC] px-6 py-2 rounded-full border border-[#285A48]">Service</a>
+        </div>
+      </nav>
+      
       <div className="max-w-5xl mx-auto px-6 py-12">
         {/* Header */}
         <header className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
