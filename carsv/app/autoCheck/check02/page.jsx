@@ -1,6 +1,10 @@
-import React from 'react';
+"use client";
+
+import React, { useState } from 'react';
+import Popup from '../check03/Popup';
 
 export default function BookingStep3() {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   return (
     <main className="min-h-screen bg-[#020D0B] text-white font-sans">
       <div className="max-w-5xl mx-auto px-6 py-12">
@@ -84,9 +88,10 @@ export default function BookingStep3() {
                 </div>
 
                 <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <button className="w-full rounded-2xl border border-white/20 bg-white/10 py-4 font-bold text-sm hover:bg-white/15 transition">
-                    View Inspection Report
-                  </button>
+                <button onClick={() => setIsPopupOpen(true)} className="w-full rounded-2xl border border-white/20 bg-white/10 py-4 font-bold text-sm hover:bg-white/15 transition">
+                  View Inspection Report
+                </button>
+                  
                   <button className="w-full rounded-2xl border border-white/20 bg-white/10 py-4 font-bold text-sm hover:bg-white/15 transition">
                     Cancel Booking
                   </button>
@@ -129,6 +134,7 @@ export default function BookingStep3() {
                   <button className="w-full sm:w-auto flex-1 rounded-2xl border border-white/20 bg-[#408A71] py-4 font-bold text-sm hover:bg-[#4aa47e] transition">
                     ✓ Back to Step 1
                   </button>
+                  <Popup isOpen={isPopupOpen} onClose={() => setIsPopupOpen(false)} />
                 </div>
               </div>
             </div>
