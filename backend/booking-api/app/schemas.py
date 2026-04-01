@@ -32,7 +32,6 @@ class BookingResponse(BookingBase):
     """Schema for booking response"""
     id: int
     createdAt: datetime
-    updatedAt: Optional[datetime] = None
 
     class Config:
         from_attributes = True

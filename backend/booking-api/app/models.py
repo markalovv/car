@@ -15,4 +15,3 @@ class Booking(Base):
     carModel = Column(String, nullable=False)
     isInspectorRequired = Column(Boolean, default=False)
     createdAt = Column(DateTime(timezone=True), server_default=func.now())
-    updatedAt = Column(DateTime(timezone=True), onupdate=func.now())

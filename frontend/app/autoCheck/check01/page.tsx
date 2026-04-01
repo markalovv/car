@@ -1,6 +1,5 @@
 "use client"
 
-import { link } from 'fs';
 import React, { useState } from 'react';
 
 interface BookingFormData {
@@ -26,10 +25,21 @@ export default function BookingStep2() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    // ตรวจสอบข้อมูลว่าครบหรือไม่
+    if (!formData.fullName || !formData.phone || !formData.appointmentDate || !formData.timeSlot) {
+      alert("❌ กรุณากรอกข้อมูลให้ครบถ้วน!");
+      return;
+    }
+    
     setIsLoading(true);
 
     const payload: BookingFormData = {
-      ...(formData as BookingFormData),
+      fullName: formData.fullName,
+      phone: formData.phone,
+      appointmentDate: formData.appointmentDate,
+      timeSlot: formData.timeSlot,
+      carModel: formData.carModel || "Civic 1.8 EL",
       isInspectorRequired: isInspectorOn,
     };
 
@@ -43,16 +53,18 @@ export default function BookingStep2() {
       if (response.ok) {
         const result = await response.json();
         console.log('Booking created:', result);
-        alert(`Success! Booking ID: ${result.bookingId}`);
-        // เปลี่ยน path ให้ถูกต้อง
+        alert(`✅ สำเร็จ! รหัสการจอง: ${result.id}`);
+        // เปลี่ยน path ไปหน้าถัดไป
         window.location.assign("/autoCheck/check02")
       } else {
-        alert("Error: " + response.statusText);
+        const errorText = await response.text();
+        console.error('Error response:', errorText);
+        alert("❌ เกิดข้อผิดพลาด: " + response.statusText);
       }
       
     } catch (error) {
       console.error('Booking error:', error);
-      alert("Failed to create booking: " + (error instanceof Error ? error.message : "Unknown error"));
+      alert("❌ ล้มเหลว: " + (error instanceof Error ? error.message : "ไม่ทราบสาเหตุ"));
     } finally {
       setIsLoading(false);
     }
