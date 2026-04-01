@@ -1,67 +1,89 @@
 from fastapi import HTTPException
+from sqlalchemy.orm import Session
 from schemas import BookingRequest, BookingResponse
-
-# เก็บข้อมูลชั่วคราว (ในการใช้งานจริงควรใช้ Database)
-bookings_db = []
-booking_counter = 1
+from models import Booking
 
 
-def create_booking(booking: BookingRequest) -> BookingResponse:
+def create_booking(booking: BookingRequest, db: Session) -> BookingResponse:
     """สร้างการจองใหม่"""
-    global booking_counter
-    
     try:
-        booking_id = booking_counter
-        booking_counter += 1
-        
-        bookings_db.append({
-            "id": booking_id,
-            "data": booking.dict()
-        })
+        # Create new booking record
+        db_booking = Booking(
+            fullName=booking.fullName,
+            phone=booking.phone,
+            appointmentDate=booking.appointmentDate,
+            timeSlot=booking.timeSlot,
+            carModel=booking.carModel,
+            isInspectorRequired=booking.isInspectorRequired
+        )
+        db.add(db_booking)
+        db.commit()
+        db.refresh(db_booking)
         
         return BookingResponse(
             message="Booking created successfully",
-            bookingId=booking_id,
+            bookingId=db_booking.id,
             data=booking
         )
     except Exception as e:
+        db.rollback()
         raise HTTPException(status_code=400, detail=str(e))
 
 
-def get_all_bookings():
+def get_all_bookings(db: Session):
     """ดึงการจองทั้งหมด"""
+    bookings = db.query(Booking).all()
     return {
-        "total": len(bookings_db),
-        "bookings": bookings_db
+        "total": len(bookings),
+        "bookings": bookings
     }
 
 
-def get_booking(booking_id: int):
+def get_booking(booking_id: int, db: Session):
     """ดึงการจองตามรหัส"""
-    for booking in bookings_db:
-        if booking["id"] == booking_id:
-            return booking
-    raise HTTPException(status_code=404, detail="Booking not found")
+    booking = db.query(Booking).filter(Booking.id == booking_id).first()
+    if not booking:
+        raise HTTPException(status_code=404, detail="Booking not found")
+    return booking
 
 
-def update_booking(booking_id: int, booking_data: BookingRequest):
+def update_booking(booking_id: int, booking_data: BookingRequest, db: Session):
     """อัปเดตการจองตามรหัส"""
-    for booking in bookings_db:
-        if booking["id"] == booking_id:
-            booking["data"] = booking_data.dict()
-            return {
-                "message": "Booking updated successfully",
-                "bookingId": booking_id,
-                "data": booking_data
-            }
-    raise HTTPException(status_code=404, detail="Booking not found")
+    booking = db.query(Booking).filter(Booking.id == booking_id).first()
+    if not booking:
+        raise HTTPException(status_code=404, detail="Booking not found")
+    
+    try:
+        booking.fullName = booking_data.fullName
+        booking.phone = booking_data.phone
+        booking.appointmentDate = booking_data.appointmentDate
+        booking.timeSlot = booking_data.timeSlot
+        booking.carModel = booking_data.carModel
+        booking.isInspectorRequired = booking_data.isInspectorRequired
+        
+        db.commit()
+        db.refresh(booking)
+        
+        return {
+            "message": "Booking updated successfully",
+            "bookingId": booking_id,
+            "data": booking_data
+        }
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=str(e))
 
 
-def delete_booking(booking_id: int):
+def delete_booking(booking_id: int, db: Session):
     """ลบการจองตามรหัส"""
-    global bookings_db
-    for i, booking in enumerate(bookings_db):
-        if booking["id"] == booking_id:
-            bookings_db.pop(i)
-            return {"message": "Booking deleted successfully", "bookingId": booking_id}
-    raise HTTPException(status_code=404, detail="Booking not found")
+    booking = db.query(Booking).filter(Booking.id == booking_id).first()
+    if not booking:
+        raise HTTPException(status_code=404, detail="Booking not found")
+    
+    try:
+        db.delete(booking)
+        db.commit()
+        return {"message": "Booking deleted successfully", "bookingId": booking_id}
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=400, detail=str(e))
