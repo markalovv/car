@@ -1,7 +1,7 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-from typing import Optional
+from schemas import BookingRequest, BookingResponse
+from crud import create_booking, get_all_bookings, get_booking, update_booking, delete_booking
 
 app = FastAPI()
 
@@ -14,64 +14,32 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# สร้าง Model สำหรับข้อมูลการจองคิว
-class BookingRequest(BaseModel):
-    fullName: str
-    phone: str
-    appointmentDate: str
-    timeSlot: str
-    carModel: str
-    isInspectorRequired: bool
-
-class BookingResponse(BaseModel):
-    message: str
-    bookingId: int
-    data: BookingRequest
-
-# เก็บข้อมูลชั่วคราว (ในการใช้งานจริงควรใช้ Database)
-bookings_db = []
-booking_counter = 1
-
 # Health Check endpoint
 @app.get("/")
 async def root():
     return {"message": "Booking API is running"}
 
-# API endpoint สำหรับรับข้อมูลการจอง
+# CREATE - สร้างการจองใหม่
 @app.post("/api/bookings", response_model=BookingResponse)
-async def create_booking(booking: BookingRequest):
-    global booking_counter
-    
-    try:
-        # บันทึกข้อมูลการจอง
-        booking_id = booking_counter
-        booking_counter += 1
-        
-        bookings_db.append({
-            "id": booking_id,
-            "data": booking.dict()
-        })
-        
-        return BookingResponse(
-            message="Booking created successfully",
-            bookingId=booking_id,
-            data=booking
-        )
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+async def create_new_booking(booking: BookingRequest):
+    return create_booking(booking)
 
-# API endpoint สำหรับดึงข้อมูลการจองทั้งหมด
+# READ - ดึงการจองทั้งหมด
 @app.get("/api/bookings")
-async def get_bookings():
-    return {
-        "total": len(bookings_db),
-        "bookings": bookings_db
-    }
+async def get_all():
+    return get_all_bookings()
 
-# API endpoint สำหรับดึงข้อมูลการจองตามรหัส
+# READ - ดึงการจองตามรหัส
 @app.get("/api/bookings/{booking_id}")
-async def get_booking(booking_id: int):
-    for booking in bookings_db:
-        if booking["id"] == booking_id:
-            return booking
-    raise HTTPException(status_code=404, detail="Booking not found")
+async def get_by_id(booking_id: int):
+    return get_booking(booking_id)
+
+# UPDATE - อัปเดตการจองตามรหัส
+@app.put("/api/bookings/{booking_id}")
+async def update_by_id(booking_id: int, booking: BookingRequest):
+    return update_booking(booking_id, booking)
+
+# DELETE - ลบการจองตามรหัส
+@app.delete("/api/bookings/{booking_id}")
+async def delete_by_id(booking_id: int):
+    return delete_booking(booking_id)
