@@ -34,7 +34,7 @@ export default function BookingStep2() {
     };
 
     try {
-      const response = await fetch('https://httpbin.org/post', {
+      const response = await fetch('http://localhost:3340/api/bookings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -42,13 +42,17 @@ export default function BookingStep2() {
 
       if (response.ok) {
         const result = await response.json();
-        console.log(result.json);
-        alert("Success");
-        window.location.assign("../../autoCheck/check02")
+        console.log('Booking created:', result);
+        alert(`Success! Booking ID: ${result.bookingId}`);
+        // เปลี่ยน path ให้ถูกต้อง
+        window.location.assign("/autoCheck/check02")
+      } else {
+        alert("Error: " + response.statusText);
       }
       
     } catch (error) {
-      console.error(error);
+      console.error('Booking error:', error);
+      alert("Failed to create booking: " + (error instanceof Error ? error.message : "Unknown error"));
     } finally {
       setIsLoading(false);
     }

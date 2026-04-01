@@ -1,0 +1,7 @@
+services:
+  api:
+    build: .
+    ports:
+      - "3340:3340"
+    volumes:
+      - .:/app
