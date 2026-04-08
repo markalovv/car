@@ -16,7 +16,7 @@ export default function Nav() {
                     {/* Links */}
                     <ul className="flex gap-8 font-medium">
                         <li>
-                            <a href="#" className="text-[#B0E4CC] hover:text-white transition-colors">Home</a>
+                            <a href="/" className="text-[#B0E4CC] hover:text-white transition-colors">Home</a>
                         </li>
                         <li>
                             <a href="#" className="text-[#408A71] hover:text-[#B0E4CC] transition-colors">Car</a>
@@ -24,6 +24,11 @@ export default function Nav() {
                         <li>
                             <a href="../../autoCheck/check01" className="bg-[#285A48] text-white px-4 py-2 rounded-full hover:bg-[#408A71] transition-all">
                                 Service
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/bookings" className="bg-[#408A71] text-[#B0E4CC] px-4 py-2 rounded-full hover:bg-[#53ffc6] transition-all">
+                                Admin
                             </a>
                         </li>
                     </ul>
