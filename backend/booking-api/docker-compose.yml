@@ -1,7 +1,16 @@
 services:
-  api:
+  api:           
     build: .
     ports:
       - "3340:3340"
     volumes:
       - .:/app
+
+  robot_tester:
+    build:
+      context: ./tests
+      dockerfile: Dockerfile.robot
+    volumes:
+      - ./tests:/tests
+    depends_on:
+      - api     
